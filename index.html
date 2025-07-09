@@ -49,6 +49,35 @@
       text-decoration: underline;
     }
 
+    .btn-jouer {
+      background: #87CEEB; /* bleu ciel */
+      color: #111;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      font-weight: bold;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .btn-jouer:hover {
+      background: #00b0d6;
+    }
+
+    #gameContainer {
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+
+    canvas {
+      background: #444;
+      border: 2px solid #fff;
+    }
+
     footer {
       background: #1f1f1f;
       padding: 10px;
@@ -65,8 +94,13 @@
   <main>
     <section class="jeu-en-ligne">
       <h2>Jouer en ligne</h2>
-      <p>Le jeu sera bientôt disponible en ligne ici.</p>
-      <!-- Tu pourras intégrer ton jeu WebGL ici plus tard -->
+      <button class="btn-jouer" onclick="document.getElementById('gameContainer').style.display='block'; this.style.display='none';">
+        Lancer le jeu
+      </button>
+
+      <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+      </div>
     </section>
 
     <section class="telechargements">
@@ -82,5 +116,41 @@
   <footer>
     <p>&copy; 2025 MonStudioJeu. Tous droits réservés.</p>
   </footer>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const player = {
+      x: 100,
+      y: 100,
+      size: 40,
+      speed: 5,
+      color: "red"
+    };
+
+    function drawPlayer() {
+      ctx.fillStyle = player.color;
+      ctx.fillRect(player.x, player.y, player.size, player.size);
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPlayer();
+    }
+
+    function move(e) {
+      switch (e.key) {
+        case "ArrowUp": player.y -= player.speed; break;
+        case "ArrowDown": player.y += player.speed; break;
+        case "ArrowLeft": player.x -= player.speed; break;
+        case "ArrowRight": player.x += player.speed; break;
+      }
+      update();
+    }
+
+    window.addEventListener("keydown", move);
+    update();
+  </script>
 </body>
 </html>
